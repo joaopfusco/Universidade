@@ -15,6 +15,7 @@ namespace Universidade.API.Controllers
         protected readonly IBaseService<TModel> _service = service;
         protected readonly ILogger _logger = logger;
 
+        [EnableQuery]
         [HttpGet]
         public virtual IActionResult GetAll()
         {
@@ -32,23 +33,6 @@ namespace Universidade.API.Controllers
                 return Ok(_service.Get(id).FirstOrDefault());
             });
         }
-
-        [HttpGet("odata")]
-        public virtual IActionResult Get(ODataQueryOptions<TModel> queryOptions)
-        {
-            return TryExecute(() =>
-            {
-                var query = _service.Get();
-                var queryfilter = queryOptions.Filter?.ApplyTo(query, new ODataQuerySettings()) ?? query;
-
-                return Ok(new
-                {
-                    _count = queryOptions.Count?.GetEntityCount(queryfilter),
-                    value = queryOptions.ApplyTo(query)
-                });
-            });
-        }
-
 
         [HttpPost]
         public virtual IActionResult Post([FromBody] TModel model)

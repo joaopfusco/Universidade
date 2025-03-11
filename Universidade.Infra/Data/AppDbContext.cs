@@ -4,7 +4,7 @@ using Universidade.Domain.Models;
 
 namespace Universidade.Infra.Data
 {
-    public partial class AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : DbContext(options)
+    public class AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : DbContext(options)
     {
         private readonly string _connectionString = GetConnectionString(configuration);
 
